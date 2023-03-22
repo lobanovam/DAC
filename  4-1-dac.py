@@ -3,15 +3,15 @@ GPIO.setmode(GPIO.BCM)
 
 def decimal2binary(value):
     return [int(element) for element in bin(value)[2:].zfill(8)]
-print(decimal2binary(10))
 
-dac = [21, 20, 16, 12, 7, 8, 25, 24]  
+
+dac = [26, 19, 13, 6, 5, 11, 9, 10]  
 
 GPIO.setup(dac, GPIO.OUT)
 
 try:
-    while(1):
-        value = input("please input a number in range 0-255")
+    while True:
+        value = input("please input a number in range 0-255: ")
         if (value == 'q'):
             break
         value = int(value)
@@ -23,6 +23,7 @@ try:
             print("ERROR: only positive integers")
             value = 0
         GPIO.output(dac, decimal2binary(value))
+        print(decimal2binary(value))
         print("expected voltage is", (3.3/256) * value)
 
 except ValueError:
@@ -32,9 +33,5 @@ finally:
     GPIO.cleanup()
 
 
-p = GPIO.PWM(24, 50)
-p.start(100)
-input("Press return to stop")
-p.stop()
 
 
